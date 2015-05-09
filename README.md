@@ -1,6 +1,6 @@
-# asset-database
+# asset-db
 
-A data base store uuid to path and vice versa information
+A asset database for operating game assets just in native file system. It will store uuid to path and vice versa information, and use user register meta module to convert native files into game engine usable data (json, binary, what ever), and store converted data in asset-library.
 
 Features
 
