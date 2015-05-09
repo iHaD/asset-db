@@ -5,7 +5,7 @@ A data base store uuid to path and vice versa information
 Features
 
   - store uuid-to-path and path-to-uuid table
-  - provide simple table, distributed meta solution
+  - provide simple table and distributed meta solution
     - simple table: store the uuid-to-path and path-to-uuid in one single table, so the assets folder no need to create meta file, also no meta support.
     - distributed meta: store uuid and configuration data in meta file.
   - import assets from native file system to asset-library.
