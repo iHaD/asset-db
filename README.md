@@ -7,7 +7,8 @@ Features
   - store uuid-to-path and path-to-uuid table
   - provide simple table and distributed meta solution
     - simple table: store the uuid-to-path and path-to-uuid in one single table, so the assets folder no need to create meta file, also no meta support.
-    - distributed meta: store uuid and configuration data in meta file.
+    - distributed meta: store uuid and configuration data in meta file, the meta file will create along with files.
+    - seprated meta: store uuid and configuration data in meta file, the meta file will create in seprated folder.
   - import assets from native file system to asset-library.
   - export assets from memory to native file system.
   - allow register your serialize, deserialize method.
@@ -19,4 +20,4 @@ Features
   - native watch support.
   - cli support.
   - async and streamming process.
-  
+
