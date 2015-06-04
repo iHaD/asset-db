@@ -19,22 +19,18 @@
     "url": "https://github.com/fireball-x/asset-db/issues"
   },
   "scripts": {
-    "test": "mocha --require should"
   },
   "dependencies": {
-    "commander": "2.7.1",
+    "commander": "2.8.1",
     "chalk": "1.0.0",
     "fire-fs": "0.1.8",
     "fire-url": "0.1.6",
-    "fire-path": "0.1.6",
-    "del": "1.1.1",
+    "fire-path": "0.1.7",
+    "del": "1.2.0",
     "globby": "2.0.0",
-    "async": "0.9.0",
-    "semver": "4.3.3",
-    "chokidar": "1.0.1"
+    "async": "1.1.0",
+    "chokidar": "1.0.2"
   },
   "devDependencies": {
-      "mocha": "",
-      "should": ""
   }
 }
