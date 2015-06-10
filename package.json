@@ -23,7 +23,7 @@
   "dependencies": {
     "commander": "2.8.1",
     "chalk": "1.0.0",
-    "fire-fs": "0.1.8",
+    "fire-fs": "0.1.9",
     "fire-url": "0.1.6",
     "fire-path": "0.1.7",
     "del": "1.2.0",
