@@ -1,12 +1,6 @@
 {
   "name": "asset-db",
   "version": "0.0.1",
-  "keywords": [
-    "database",
-    "files",
-    "import",
-    "export"
-  ],
   "description": "A data base store uuid to path and vice versa information",
   "homepage": "http://fireball-x.com",
   "repository": {
@@ -15,10 +9,18 @@
   },
   "author": "Firebox Technology",
   "license": "ISC",
+  "keywords": [
+    "database",
+    "files",
+    "import",
+    "export"
+  ],
   "bugs": {
     "url": "https://github.com/fireball-x/asset-db/issues"
   },
   "scripts": {
+    "test": "node utils/test-runner.js",
+    "test-editor": "node utils/editor-test-runner.js"
   },
   "dependencies": {
     "commander": "2.8.1",
@@ -32,5 +34,8 @@
     "chokidar": "1.0.2"
   },
   "devDependencies": {
+    "chai": "2.3.0",
+    "mocha": "2.2.5",
+    "sinon": "1.15.0"
   }
 }

@@ -1,53 +1,55 @@
-var Commander = require('commander');
-var AssetDB = require('./asset-db');
-var REPL = require('repl');
+var EventEmitter = require('events');
+var Util = require('util');
 
-// ---------------------------
-// initialize Commander
-// ---------------------------
+var Fs = require('fire-fs');
+var Path = require('fire-path');
+var Async = require('async');
 
-var pjson = require('./package.json');
+/**
+ * constructor
+ */
+function AssetDB ( opts ) {
+    this.cwd = opts.cwd || process.cwd();
 
-// NOTE: commander only get things done barely in core level,
-//       it doesn't touch the page level, so it should not put into App.on('ready')
-Commander
-    .version(pjson.version)
-    .option('--dev', 'Run in development mode')
-    ;
+    var library = opts.library || 'library';
+    this.library = Path.resolve(this.cwd, library);
 
-// usage
-Commander
-    .usage('[options] <library ...>')
-    ;
+    // create library directory if not exists
+    if ( !Fs.existsSync(this.library) ) {
+        Fs.makeTreeSync(this.library);
+    }
 
-// command
-// Commander
-//     .command('foobar').action( function () {
-//         console.log('foobar!!!');
-//         // process.exit(1);
-//     })
-//     ;
-Commander.parse(process.argv);
+    // init db tables
+    this._mounts = {};
+    this._uuid2mtime = {};
+    this._uuid2path = {};
+    this._path2uuid = {};
+    this._path2subuuids = {};
 
-var library = Commander.args.length > 0 ? Commander.args[0] : 'library';
-var assetDB = AssetDB.init({
-    'cwd': process.cwd(),
-    'library': library,
-    'db-type': 'simple',
-});
+    // load uuid-to-mtime table
+    this._uuid2mtimePath = Path.join( this.library, 'uuid-to-mtime.json' );
+    try {
+        this._uuid2mtime = JSON.parse(Fs.readFileSync(this._uuid2mtimePath));
+    }
+    catch ( err ) {
+        if ( err.code !== 'ENOENT' ) {
+            AssetDB.error('Init failed, %s' + err.message);
+            return;
+        }
+    }
 
-// ---------------------------
-// initialize REPL
-// ---------------------------
+    this._tasks = Async.queue(function (task, callback) {
+        this.log('[Task %s] starting...', task.name);
+        task.params.push(callback);
+        task.run.apply( this, task.params );
+    }.bind(this), 1);
+}
+Util.inherits(AssetDB,EventEmitter); // inherit from event emitter
 
-// function dbEval( cmd, context, filename, callback ) {
-//     callback(null, cmd);
-// }
+var JS = require('./lib/js-utils.js');
+JS.mixin( AssetDB.prototype, require('./lib/console') ); // log system
+JS.mixin( AssetDB.prototype, require('./lib/interface') );
 
-var repl = REPL.start({
-    prompt: 'asset-db> ',
-    input: process.stdin,
-    output: process.stdout,
-    // eval: dbEval,
-});
-repl.context.db = assetDB;
+// export module
+module.exports = AssetDB;
+

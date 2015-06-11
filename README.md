@@ -21,3 +21,6 @@ Features
   - cli support.
   - async and streamming process.
 
+## Integrate with editor-framework
+
+The scripts in `core/` and `page/` are used for integrating AssetDB with editor-framework.
