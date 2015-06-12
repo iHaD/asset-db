@@ -83,7 +83,7 @@ function AssetDB ( opts ) {
         }
     }.bind(this), 1);
 }
-Util.inherits(AssetDB,EventEmitter); // inherit from event emitter
+JS.extend(AssetDB,EventEmitter); // inherit from event emitter
 
 var JS = require('./lib/js-utils.js');
 JS.mixin( AssetDB.prototype, require('./lib/utils') );

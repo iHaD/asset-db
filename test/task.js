@@ -6,6 +6,7 @@ var Del = require('del');
 var Tasks = require('../lib/tasks');
 var JS = require('../lib/js-utils.js');
 JS.mixin( Tasks, require('../lib/utils') );
+JS.mixin( Tasks, require('../lib/internal') );
 
 describe('Tasks._scan', function () {
     it('should return the results we expect when scan single file', function ( done ) {

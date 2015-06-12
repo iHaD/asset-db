@@ -33,7 +33,9 @@
     "fire-path": "0.1.7",
     "fire-url": "0.1.6",
     "globby": "2.0.0",
-    "lodash": "3.9.3"
+    "lodash": "3.9.3",
+    "minimatch": "2.0.8",
+    "node-uuid": "1.4.2"
   },
   "devDependencies": {
     "chai": "2.3.0",
