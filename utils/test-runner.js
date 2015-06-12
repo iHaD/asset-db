@@ -97,12 +97,12 @@ Spec.prototype = Base.prototype;
 
 //
 Commander
-    .option('--test <path>', 'Run tests in path' )
+    .option('<path>', 'Run tests in path' )
     .parse(process.argv)
     ;
 
-if ( Commander.test ) {
-    run(Commander.test);
+if ( Commander.args[0] ) {
+    run(Commander.args[0]);
 }
 else {
     var cwd = process.cwd();
