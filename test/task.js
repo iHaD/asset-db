@@ -96,11 +96,15 @@ describe('Tasks._scan with unused meta', function () {
 });
 
 describe('Tasks._initMetas', function () {
+    var assetdb;
     var src = Path.join( __dirname, 'fixtures/init-meta' );
     var dest = Path.join( __dirname, 'playground/init-meta' );
-    var assetdb = new AssetDB({
-        cwd: Path.join( __dirname, 'playground' ),
-        library: 'library',
+
+    before(function ( done ) {
+        assetdb = new AssetDB({
+            cwd: Path.join( __dirname, 'playground' ),
+            library: 'library',
+        });
     });
 
     after( function ( done ) {
