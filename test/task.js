@@ -73,3 +73,9 @@ describe('Tasks._scan with unused meta', function () {
         });
     });
 });
+
+describe('Tasks._initMetas', function () {
+    it.skip('should create meta if meta not found');
+    it.skip('should not add meta to results if meta failed to load');
+    it.skip('should removed unused meta file');
+});

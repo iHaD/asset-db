@@ -26,37 +26,37 @@ describe('Meta.findCtor', function () {
     });
 
     it('should get PngMeta', function ( done ) {
-        var ctor = Meta.findCtor( Path.join( __dirname, 'fixtures/example-assets/export/particles/smoke.png') );
+        var ctor = Meta.findCtor( Path.join( __dirname, 'fixtures/meta-test/some-assets/particles/smoke.png') );
         expect(ctor).to.equal(PngMeta);
         done();
     });
 
     it('should get ImageMeta', function ( done ) {
-        var ctor = Meta.findCtor( Path.join( __dirname, 'fixtures/example-assets/export/spineboy/spineboy.png') );
+        var ctor = Meta.findCtor( Path.join( __dirname, 'fixtures/meta-test/some-assets/spineboy/spineboy.png') );
         expect(ctor).to.equal(ImageMeta);
         done();
     });
 
     it('should get AssetMeta', function ( done ) {
-        var ctor = Meta.findCtor( Path.join( __dirname, 'fixtures/example-assets/animation/down.asset') );
+        var ctor = Meta.findCtor( Path.join( __dirname, 'fixtures/meta-test/animation/down.asset') );
         expect(ctor).to.equal(AssetMeta);
         done();
     });
 
     it('should get FolderMeta', function ( done ) {
-        var ctor = Meta.findCtor( Path.join( __dirname, 'fixtures/example-assets/animation/') );
+        var ctor = Meta.findCtor( Path.join( __dirname, 'fixtures/meta-test/animation/') );
         expect(ctor).to.equal(FolderMeta);
         done();
     });
 
     it('should get AtlasMeta', function ( done ) {
-        var ctor = Meta.findCtor( Path.join( __dirname, 'fixtures/simple-assets-03/atlas-asset.atlas') );
+        var ctor = Meta.findCtor( Path.join( __dirname, 'fixtures/meta-test/atlas-asset.atlas') );
         expect(ctor).to.equal(AtlasMeta);
         done();
     });
 
     it('should get AtlasFolderMeta', function ( done ) {
-        var ctor = Meta.findCtor( Path.join( __dirname, 'fixtures/simple-assets-03/atlas-folder.atlas') );
+        var ctor = Meta.findCtor( Path.join( __dirname, 'fixtures/meta-test/atlas-folder.atlas') );
         expect(ctor).to.equal(AtlasFolderMeta);
         done();
     });
