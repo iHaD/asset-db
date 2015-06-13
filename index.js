@@ -36,6 +36,9 @@ function AssetDB ( opts ) {
     this._uuid2path = {};
     this._path2uuid = {};
 
+    // init meta info
+    this._extname2infos = {};
+
     // load uuid-to-mtime table
     this._uuid2mtimePath = Path.join( this.library, 'uuid-to-mtime.json' );
     try {
@@ -66,6 +69,7 @@ function AssetDB ( opts ) {
             this._curTask = null;
             callback.apply( null, arguments );
         }.bind(this);
+        task.params.unshift(this);
         task.params.push(done);
         task.id = ++this._genTaskID % 100;
 
