@@ -3,15 +3,23 @@ var Fs = require('fire-fs');
 var Del = require('del');
 
 //
+var AssetDB = require('../index');
 var Tasks = require('../lib/tasks');
-var JS = require('../lib/js-utils.js');
-JS.mixin( Tasks, require('../lib/utils') );
-JS.mixin( Tasks, require('../lib/internal') );
 
+//
 describe('Tasks._scan', function () {
+    var assetDB = new AssetDB({
+        cwd: Path.join( __dirname, 'playground' ),
+        library: 'library',
+    });
+
+    after( function ( done ) {
+        Del( Path.join( __dirname, 'playground' ), done );
+    });
+
     it('should return the results we expect when scan single file', function ( done ) {
         var dest = Path.join( __dirname, 'fixtures/simple-assets-02/foobar.js' );
-        Tasks._scan( dest, function ( err, results ) {
+        Tasks._scan.call( assetDB, dest, function ( err, results ) {
             expect(results).to.be.deep.equal([
                 dest
             ]);
@@ -21,7 +29,7 @@ describe('Tasks._scan', function () {
 
     it('should return the results we expect when scan directory', function ( done ) {
         var dest = Path.join( __dirname, 'fixtures/simple-assets-03' );
-        Tasks._scan( dest, function ( err, results ) {
+        Tasks._scan.call( assetDB, dest, function ( err, results ) {
             expect(results).to.be.deep.equal([
                 '',
                 'foobar',
@@ -39,7 +47,15 @@ describe('Tasks._scan', function () {
 
 describe('Tasks._scan with unused meta', function () {
     var src = Path.join( __dirname, 'fixtures/assets-with-unused-meta' );
-    var dest = Path.join( __dirname, 'fixtures/assets-with-unused-meta-02' );
+    var dest = Path.join( __dirname, 'playground/assets-with-unused-meta' );
+    var assetDB = new AssetDB({
+        cwd: Path.join( __dirname, 'playground' ),
+        library: 'library',
+    });
+
+    after( function ( done ) {
+        Del( Path.join( __dirname, 'playground' ), done );
+    });
 
     beforeEach(function (done) {
         Fs.copySync( src, dest );
@@ -51,7 +67,7 @@ describe('Tasks._scan with unused meta', function () {
     });
 
     it('should not list unsued meta files in the results', function ( done ) {
-        Tasks._scan( dest, { 'remove-unused-meta': false }, function ( err, results ) {
+        Tasks._scan.call( assetDB, dest, { 'remove-unused-meta': false }, function ( err, results ) {
             expect(results).to.not.include.members([
                 'unused-folder-meta.meta',
                 'animation/unused-file-meta.asset.meta'
@@ -66,7 +82,7 @@ describe('Tasks._scan with unused meta', function () {
     });
 
     it('should remove unused meta files during scan', function ( done ) {
-        Tasks._scan( dest, { 'remove-unused-meta': true }, function ( err, results ) {
+        Tasks._scan.call( assetDB, dest, { 'remove-unused-meta': true }, function ( err, results ) {
             expect(Fs.existsSync( Path.join( dest, 'unused-folder-meta.meta'))).to.be.false;
             expect(Fs.existsSync( Path.join( dest, 'animation/unused-file-meta.asset.meta'))).to.be.false;
             done();

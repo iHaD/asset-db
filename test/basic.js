@@ -5,7 +5,7 @@ var AssetDB = require('../index');
 
 describe('AssetDB.mount', function () {
     var assetDB = new AssetDB({
-        cwd: Path.join( __dirname, 'fixtures' ),
+        cwd: Path.join( __dirname, 'playground' ),
         library: 'library',
     });
 
@@ -13,7 +13,7 @@ describe('AssetDB.mount', function () {
         Async.each(['foo', 'bar'], function ( name, done ) {
             assetDB.unmount( name, done );
         }, function () {
-            Del( Path.join( __dirname, 'fixtures/library' ), done );
+            Del( Path.join( __dirname, 'playground' ), done );
         });
     });
 
@@ -90,12 +90,12 @@ describe('AssetDB.mount', function () {
 
 describe('AssetDB.mount', function () {
     var assetDB = new AssetDB({
-        cwd: Path.join( __dirname, 'fixtures' ),
+        cwd: Path.join( __dirname, 'playground' ),
         library: 'library',
     });
 
     after( function ( done ) {
-        Del( Path.join( __dirname, 'fixtures/library' ), done );
+        Del( Path.join( __dirname, 'playground' ), done );
     });
 
     it('should report error when you unmount a not exists node', function ( done ) {

@@ -35,7 +35,6 @@ function AssetDB ( opts ) {
     this._uuid2mtime = {};
     this._uuid2path = {};
     this._path2uuid = {};
-    this._path2subuuids = {};
 
     // load uuid-to-mtime table
     this._uuid2mtimePath = Path.join( this.library, 'uuid-to-mtime.json' );
@@ -83,9 +82,10 @@ function AssetDB ( opts ) {
         }
     }.bind(this), 1);
 }
-JS.extend(AssetDB,EventEmitter); // inherit from event emitter
 
 var JS = require('./lib/js-utils.js');
+JS.extend(AssetDB,EventEmitter); // inherit from event emitter
+
 JS.mixin( AssetDB.prototype, require('./lib/utils') );
 JS.mixin( AssetDB.prototype, require('./lib/interface') );
 JS.mixin( AssetDB.prototype, require('./lib/internal') );
