@@ -105,6 +105,7 @@ describe('Tasks._initMetas', function () {
             cwd: Path.join( __dirname, 'playground' ),
             library: 'library',
         });
+        done();
     });
 
     after( function ( done ) {
