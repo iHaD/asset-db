@@ -64,7 +64,7 @@ function AssetDB ( opts ) {
         }
 
         // push finish callback
-        var done = function () {
+        var done = function ( err ) {
             this.success('done!');
             this._curTask = null;
             callback.apply( null, arguments );
@@ -78,8 +78,7 @@ function AssetDB ( opts ) {
             this.log('[%d][%s] running...', task.id, taskNameWithParams);
             this._curTask = task;
             task.run.apply( this, task.params );
-        }
-        catch ( err ) {
+        } catch ( err ) {
             this.failed('failed!');
             this._curTask = null;
             callback(err);

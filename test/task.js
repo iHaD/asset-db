@@ -124,7 +124,7 @@ describe('Tasks._initMetas', function () {
     it('should create meta if meta not found', function ( done ) {
         var mtime = Fs.statSync( Path.join( dest, 'an-asset-with-meta.js.meta' ) ).mtime.getTime();
 
-        Tasks._initMetas( assetdb, dest, true, function ( err ) {
+        Tasks._initMetas( assetdb, dest, function ( err ) {
             expect(Fs.existsSync(Path.join(dest,'a-folder.meta'))).to.be.equal(true);
             expect(Fs.existsSync(Path.join(dest,'a-folder/an-asset.asset.meta'))).to.be.equal(true);
 
@@ -136,7 +136,7 @@ describe('Tasks._initMetas', function () {
     });
 
     it('should removed unused meta file', function ( done ) {
-        Tasks._initMetas( assetdb, dest, true, function ( err ) {
+        Tasks._initMetas( assetdb, dest, function ( err ) {
             expect(Fs.existsSync(Path.join(dest,'unused-folder-meta.meta'))).to.be.equal(false);
             expect(Fs.existsSync(Path.join(dest,'unused-file-meta.asset.meta'))).to.be.equal(false);
 
@@ -145,7 +145,7 @@ describe('Tasks._initMetas', function () {
     });
 
     it('should not add meta to results if meta failed to load', function ( done ) {
-        Tasks._initMetas( assetdb, dest, true, function ( err, results ) {
+        Tasks._initMetas( assetdb, dest, function ( err, results ) {
             var paths = results.map( function ( item ) {
                 return item.path;
             });
@@ -164,4 +164,7 @@ describe('Tasks._initMetas', function () {
             done();
         });
     });
+});
+
+describe('Tasks._checkIfReimport', function () {
 });
