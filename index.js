@@ -39,6 +39,12 @@ function AssetDB ( opts ) {
     // init meta info
     this._extname2infos = {};
 
+    // init imports folder
+    this._importPath = Path.join( this.library, 'imports' );
+    if ( !Fs.existsSync(this._importPath) ) {
+        Fs.mkdirSync(this._importPath);
+    }
+
     // load uuid-to-mtime table
     this._uuid2mtimePath = Path.join( this.library, 'uuid-to-mtime.json' );
     try {

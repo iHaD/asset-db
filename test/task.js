@@ -147,7 +147,7 @@ describe('Tasks._initMetas', function () {
     it('should not add meta to results if meta failed to load', function ( done ) {
         Tasks._initMetas( assetdb, dest, function ( err, results ) {
             var paths = results.map( function ( item ) {
-                return item.path;
+                return item.assetpath;
             });
 
             expect(paths).to.have.members([

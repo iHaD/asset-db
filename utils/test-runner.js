@@ -115,7 +115,6 @@ else {
             console.log( Chalk.magenta( 'Start test (' + path + ')') );
             SpawnSync('node', [
                 Path.join(cwd,'utils/test-runner.js'),
-                '--test',
                 path
             ], {
                 stdio: 'inherit'
