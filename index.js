@@ -81,7 +81,7 @@ function AssetDB ( opts ) {
 
         // run the task
         try {
-            this.log('[%d][%s] running...', task.id, taskNameWithParams);
+            this.log('[db-task][%s] running...', taskNameWithParams);
             this._curTask = task;
             task.run.apply( this, task.params );
         } catch ( err ) {
