@@ -1,10 +1,13 @@
 var Path = require('fire-path');
 var Fs = require('fire-fs');
 var Del = require('del');
+var Async = require('async');
 
 //
 var AssetDB = require('../index');
 var Tasks = require('../lib/tasks');
+var Meta = require('../lib/meta');
+var JS = require('../lib/js-utils');
 
 //
 describe('Tasks._scan', function () {
@@ -167,4 +170,110 @@ describe('Tasks._initMetas', function () {
 });
 
 describe('Tasks._checkIfReimport', function () {
+    var assetdb;
+    var src = Path.join( __dirname, 'fixtures/check-if-reimport/' );
+    var dest = Path.join( __dirname, 'playground/check-if-reimport' );
+
+    beforeEach(function ( done ) {
+        function AtlasFolderMeta () {}
+
+        Fs.copySync( src, dest );
+
+        assetdb = new AssetDB({
+            cwd: Path.join( __dirname, 'playground' ),
+            library: 'library',
+        });
+        Meta.register(assetdb, '.atlas', null, true, JS.extend(AtlasFolderMeta,Meta.AssetMeta));
+
+        Async.series([
+            function ( next ) {
+                assetdb.mount( dest, 'assets', next );
+            },
+
+            function ( next ) {
+                assetdb.init( next );
+            },
+
+            function ( next ) {
+                var meta = Meta.load( assetdb, Path.join(dest, 'an-asset-not-in-library.js.meta') );
+
+                Del([
+                    assetdb._uuid2importPath( meta.uuid ),
+                    Path.join(dest, 'an-asset-without-meta.js.meta'),
+                    Path.join(dest, 'an-folder-asset.atlas/asset-in-folder-asset-without-meta.png.meta'),
+                ], next );
+            },
+
+            function ( next ) {
+                var meta = Meta.load( assetdb, Path.join(dest, 'an-asset-changes-outside.js.meta') );
+                var now = new Date();
+
+                assetdb._uuid2mtime[meta.uuid] = {
+                    asset: now.getTime(),
+                    meta: now.getTime(),
+                };
+
+                assetdb.updateMtime();
+                next();
+            },
+        ], function () {
+            setTimeout( done, 100 );
+        });
+
+    });
+
+    afterEach( function ( done ) {
+        Del( Path.join( __dirname, 'playground' ), done );
+    });
+
+    it('should get reimport results', function ( done ) {
+        var tests = [
+            {
+                path: Path.join( dest, 'a-folder-with-meta' ),
+                result: true,
+            },
+            {
+                path: Path.join( dest, 'a-folder-with-meta/an-asset-with-meta.js' ),
+                result: false,
+            },
+            {
+                path: Path.join( dest, 'an-asset-changes-outside.js' ),
+                result: true,
+            },
+            {
+                path: Path.join( dest, 'an-asset-not-in-library.js' ),
+                result: true,
+            },
+            {
+                path: Path.join( dest, 'an-asset-without-meta.js' ),
+                result: true,
+            },
+            {
+                path: Path.join( dest, 'an-folder-asset.atlas' ),
+                result: false,
+            },
+            {
+                path: Path.join( dest, 'an-folder-asset.atlas/asset-in-folder-asset.png' ),
+                result: false,
+            },
+            {
+                path: Path.join( dest, 'an-folder-asset.atlas/asset-in-folder-asset-without-meta.png' ),
+                result: true,
+            },
+            {
+                path: Path.join( dest, 'meta-has-error.js' ),
+                result: true,
+            },
+        ];
+
+        Async.each( tests, function ( test, done ) {
+            Tasks._checkIfReimport( assetdb, test.path, function ( err, reimport ) {
+                console.log('check %s', test.path );
+                expect( test.result ).to.be.equal(reimport);
+                done();
+            });
+        }, function () {
+            done();
+        });
+    });
 });

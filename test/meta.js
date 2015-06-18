@@ -2,9 +2,6 @@ var Fs = require('fire-fs');
 var Path = require('fire-path');
 var Del = require('del');
 
-var AssetMeta = require('../lib/meta/asset');
-var FolderMeta = require('../lib/meta/folder');
-
 var AssetDB = require('../index');
 var Meta = require('../lib/meta');
 var JS = require('../lib/js-utils');
@@ -25,11 +22,11 @@ describe('Meta.findCtor', function () {
             library: 'library',
         });
 
-        Meta.register(assetdb, '.png', null, false, JS.extend(ImageMeta,AssetMeta));
-        Meta.register(assetdb, '.png', '**/particles/*.png', false, JS.extend(PngMeta,AssetMeta));
+        Meta.register(assetdb, '.png', null, false, JS.extend(ImageMeta,Meta.AssetMeta));
+        Meta.register(assetdb, '.png', '**/particles/*.png', false, JS.extend(PngMeta,Meta.AssetMeta));
 
-        Meta.register(assetdb, '.atlas', null, true, JS.extend(AtlasFolderMeta,AssetMeta));
-        Meta.register(assetdb, '.atlas', null, false, JS.extend(AtlasMeta,AssetMeta));
+        Meta.register(assetdb, '.atlas', null, true, JS.extend(AtlasFolderMeta,Meta.AssetMeta));
+        Meta.register(assetdb, '.atlas', null, false, JS.extend(AtlasMeta,Meta.AssetMeta));
 
         done();
     });
@@ -62,13 +59,13 @@ describe('Meta.findCtor', function () {
 
     it('should get AssetMeta', function ( done ) {
         var ctor = Meta.findCtor(assetdb, Path.join( dest, 'a-folder/an-asset.asset') );
-        expect(ctor).to.equal(AssetMeta);
+        expect(ctor).to.equal(Meta.AssetMeta);
         done();
     });
 
     it('should get FolderMeta', function ( done ) {
         var ctor = Meta.findCtor(assetdb, Path.join( dest, 'a-folder') );
-        expect(ctor).to.equal(FolderMeta);
+        expect(ctor).to.equal(Meta.FolderMeta);
         done();
     });
 
