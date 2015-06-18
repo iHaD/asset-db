@@ -5,6 +5,12 @@ var Fs = require('fire-fs');
 var Path = require('fire-path');
 var Async = require('async');
 
+// register editor versions
+var ED = global.Editor;
+if ( ED && ED.isCoreLevel ) {
+    ED.versions['asset-db'] = require('./package.json').version;
+}
+
 function _shortString ( str, cnt ) {
     if ( cnt <= 3 || str.length <= cnt )
         return str;
