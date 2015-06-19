@@ -277,3 +277,60 @@ describe('Tasks._checkIfReimport', function () {
         });
     });
 });
+
+describe('Tasks.deepQuery', function () {
+    var assetdb;
+    var src = Path.join( __dirname, 'fixtures/init-meta' );
+    var dest = Path.join( __dirname, 'playground/init-meta' );
+
+    before(function ( done ) {
+        assetdb = new AssetDB({
+            cwd: Path.join( __dirname, 'playground' ),
+            library: 'library',
+        });
+        done();
+    });
+
+    after( function ( done ) {
+        Del( Path.join( __dirname, 'playground' ), done );
+    });
+
+    beforeEach(function (done) {
+        function AtlasFolderMeta () {}
+
+        Fs.copySync( src, dest );
+
+        assetdb = new AssetDB({
+            cwd: Path.join( __dirname, 'playground' ),
+            library: 'library',
+        });
+        Meta.register(assetdb, '.atlas', null, true, JS.extend(AtlasFolderMeta,Meta.AssetMeta));
+
+        Async.series([
+            function ( next ) {
+                assetdb.mount( dest, 'assets', next );
+            },
+
+            function ( next ) {
+                assetdb.init( next );
+            },
+        ], function () {
+            done();
+        });
+    });
+
+    afterEach(function (done) {
+        Del(dest, done);
+    });
+
+    it('should query results', function ( done ) {
+        Tasks.deepQuery( assetdb, function ( results ) {
+            expect(results[0].name).to.be.equal('assets');
+            expect(results[0].children[0].name).to.be.equal('a-folder-with-meta');
+            expect(results[0].children[0].type).to.be.equal('FolderMeta');
+            // console.log( JSON.stringify(results, null, 2));
+        });
+
+        done();
+    });
+});

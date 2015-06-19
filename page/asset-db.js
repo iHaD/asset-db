@@ -1,14 +1,21 @@
-var Remote = require('remote');
+Editor.assetdb = (function () {
+    var AssetDB = {};
 
-var AssetDB = {};
-Editor.AssetDB = AssetDB;
+    //
+    AssetDB.remote = Editor.remote.assetdb;
+    AssetDB.library = AssetDB.remote.library;
 
-//
-AssetDB.remote = Remote.getGlobal('AssetDB');
+    // ipc
 
-// ipc
-AssetDB.explore = function ( url ) {
-    Editor.sendToCore( 'asset-db:explore', {
-        url: url
-    });
-};
+    AssetDB.explore = function ( url ) {
+        Editor.sendToCore( 'asset-db:explore', {
+            url: url
+        });
+    };
+
+    AssetDB.deepQuery = function ( cb ) {
+        Editor.sendRequestToCore( 'asset-db:deep-query', cb );
+    };
+
+    return AssetDB;
+})();
