@@ -327,7 +327,7 @@ describe('Tasks.deepQuery', function () {
         Tasks.deepQuery( assetdb, function ( results ) {
             expect(results[0].name).to.be.equal('assets');
             expect(results[0].children[0].name).to.be.equal('a-folder-with-meta');
-            expect(results[0].children[0].type).to.be.equal('FolderMeta');
+            expect(results[0].children[0].type).to.be.equal('folder');
             // console.log( JSON.stringify(results, null, 2));
         });
 

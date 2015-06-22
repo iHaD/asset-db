@@ -1,7 +1,13 @@
 // register editor versions
 var ED = global.Editor;
 if ( ED ) {
-    ED.Meta = require('./lib/meta');
+    var Meta = require('./lib/meta');
+
+    if ( !ED.metas ) {
+        ED.metas = {};
+    }
+    ED.metas.asset = Meta.AssetMeta;
+    ED.metas.folder = Meta.FolderMeta;
 
     if ( ED.isPageLevel ) {
         require('./page');

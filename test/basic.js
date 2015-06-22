@@ -152,10 +152,12 @@ describe('AssetDB.init', function () {
 
                 var meta = Meta.load( assetdb, Path.join(dest,'a-folder.meta') );
                 expect(meta).to.be.instanceof(Meta.FolderMeta);
+                expect(meta['meta-type']).to.be.equal('folder');
                 expect( Fs.existsSync(assetdb._uuid2importPath(meta.uuid)) ).to.be.equal(false);
 
                 meta = Meta.load( assetdb, Path.join(dest,'an-asset.atlas.meta') );
                 expect(meta).to.be.instanceof(Meta.AssetMeta);
+                expect(meta['meta-type']).to.be.equal('asset');
                 expect( Fs.existsSync(assetdb._uuid2importPath(meta.uuid)) ).to.be.equal(true);
 
                 done();
