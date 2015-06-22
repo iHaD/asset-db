@@ -11,7 +11,7 @@ var cwd = process.cwd();
 
 var target = Commander.args[0];
 if ( target ) {
-    Del ( Path.join(target, '**/*.meta'), function ( err, paths ) {
+    Del ( Path.join(target, '**/*.meta'), { force: true }, function ( err, paths ) {
         if ( err ) {
             console.error(err);
             return;
