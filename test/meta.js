@@ -1,12 +1,17 @@
 var Fs = require('fire-fs');
 var Path = require('fire-path');
 var Del = require('del');
+var Minimatch = require('minimatch');
 
 var AssetDB = require('../index');
 var Meta = require('../lib/meta');
 var JS = require('../lib/js-utils');
 
 function PngMeta () {}
+PngMeta.validate = function ( assetpath ) {
+    return Minimatch( assetpath, '**/particles/*.png' );
+};
+
 function ImageMeta () {}
 function AtlasFolderMeta () {}
 function AtlasMeta () {}
@@ -22,11 +27,11 @@ describe('Meta.findCtor', function () {
             library: 'library',
         });
 
-        Meta.register(assetdb, '.png', null, false, JS.extend(ImageMeta,Meta.AssetMeta));
-        Meta.register(assetdb, '.png', '**/particles/*.png', false, JS.extend(PngMeta,Meta.AssetMeta));
+        Meta.register(assetdb, '.png', false, JS.extend(ImageMeta,Meta.AssetMeta));
+        Meta.register(assetdb, '.png', false, JS.extend(PngMeta,Meta.AssetMeta));
 
-        Meta.register(assetdb, '.atlas', null, true, JS.extend(AtlasFolderMeta,Meta.AssetMeta));
-        Meta.register(assetdb, '.atlas', null, false, JS.extend(AtlasMeta,Meta.AssetMeta));
+        Meta.register(assetdb, '.atlas', true, JS.extend(AtlasFolderMeta,Meta.AssetMeta));
+        Meta.register(assetdb, '.atlas', false, JS.extend(AtlasMeta,Meta.AssetMeta));
 
         done();
     });

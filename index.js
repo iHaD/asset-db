@@ -1,6 +1,8 @@
 // register editor versions
 var ED = global.Editor;
 if ( ED ) {
+    ED.Meta = require('./lib/meta');
+
     if ( ED.isPageLevel ) {
         require('./page');
         return;

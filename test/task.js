@@ -183,7 +183,7 @@ describe('Tasks._checkIfReimport', function () {
             cwd: Path.join( __dirname, 'playground' ),
             library: 'library',
         });
-        Meta.register(assetdb, '.atlas', null, true, JS.extend(AtlasFolderMeta,Meta.AssetMeta));
+        Meta.register(assetdb, '.atlas', true, JS.extend(AtlasFolderMeta,Meta.AssetMeta));
 
         Async.series([
             function ( next ) {
@@ -304,7 +304,7 @@ describe('Tasks.deepQuery', function () {
             cwd: Path.join( __dirname, 'playground' ),
             library: 'library',
         });
-        Meta.register(assetdb, '.atlas', null, true, JS.extend(AtlasFolderMeta,Meta.AssetMeta));
+        Meta.register(assetdb, '.atlas', true, JS.extend(AtlasFolderMeta,Meta.AssetMeta));
 
         Async.series([
             function ( next ) {
