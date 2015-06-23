@@ -3,9 +3,7 @@ var ED = global.Editor;
 if ( ED ) {
     var Meta = require('./lib/meta');
 
-    if ( !ED.metas ) {
-        ED.metas = {};
-    }
+    if ( !ED.metas ) ED.metas = {};
     ED.metas.asset = Meta.AssetMeta;
     ED.metas.folder = Meta.FolderMeta;
 
