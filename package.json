@@ -1,6 +1,6 @@
 {
   "name": "asset-db",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "description": "A data base store uuid to path and vice versa information",
   "homepage": "http://fireball-x.com",
   "repository": {
