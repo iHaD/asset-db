@@ -64,11 +64,27 @@ describe('AssetDB.mount', function () {
     });
 
     it('should report error when mount path already used', function ( done ) {
-        assetdb.mount( Path.join( __dirname, 'fixtures/simple-assets-01' ), 'bar', function ( err ) {
-            console.log(err);
-            expect(err).to.be.instanceof(Error);
+        Async.series([
+            //
+            function ( next ) {
+                assetdb.mount( Path.join( __dirname, 'fixtures/simple-assets-01' ), 'bar', function ( err ) {
+                    console.log(err);
+                    expect(err).to.be.instanceof(Error);
+                    next();
+                });
+            },
+
+            //
+            function ( next ) {
+                assetdb.mount( Path.join( __dirname, 'fixtures/simple-assets-01/' ), 'bar', function ( err ) {
+                    console.log(err);
+                    expect(err).to.be.instanceof(Error);
+                    next();
+                });
+            },
+        ], function () {
             done();
-        });
+        })
     });
 
     it('should report error when you mount a path that its parent already used', function ( done ) {
