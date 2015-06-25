@@ -66,6 +66,12 @@ function AssetDB ( opts ) {
         Fs.mkdirSync(this._importPath);
     }
 
+    // init thumbnails folder
+    this._thumbnailPath = Path.join( this.library, 'thumbnails' );
+    if ( !Fs.existsSync(this._thumbnailPath) ) {
+        Fs.mkdirSync(this._thumbnailPath);
+    }
+
     // load uuid-to-mtime table
     this._uuid2mtimePath = Path.join( this.library, 'uuid-to-mtime.json' );
     try {
